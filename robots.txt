@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: *
+Disallow: /
+http://tt.maryjane.ru/web_sitemap_3f69691d.xml.gz # Added by Google Sitemap Generator
