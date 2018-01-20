@@ -1,12 +1,29 @@
 $('.subtasks').find('input[type=checkbox]').live('click', function(){
 
-	var id = $(this).attr('_id');
+    var id = $(this).attr('_id');
 	var ch = $(this).attr('checked');
 	var i = this;
+    
+    $(this).attr('disabled', 'disabled');
+    
+    if (ch == 'checked')
+    {
+        $(this).parent().children('.finishTask-widget').toggle();
+    } 
+    else
+    {
+        $.get('index.php', {'r' : 'tasks/finish', 'id' : id}, function (r){
+            $('#subtask-' + id + ' span.text').removeClass('finished');
+            $(i).removeAttr('disabled');
+        });
+    }
+
+});
+
+/*
+$('.finishTask-form').submit(function(){
 	
-	$(this).attr('disabled', 'disabled');
-	
-	$.get('index.php', {'r' : 'tasks/finish', 'id' : id}, function (r){
+	$.post($(this).attr('action'), $(this).serialize(), function (r){
 	
 		if (ch == 'checked')
 			$(i).next('span.text').addClass('finished');
@@ -16,6 +33,15 @@ $('.subtasks').find('input[type=checkbox]').live('click', function(){
 		$(i).removeAttr('disabled');
 	});
 
+    return false;
+});
+*/
+
+$('.finishTask-widget input[type=reset]').click(function(){
+    
+    $(this).parent().parent().hide();
+    $(this).parent().parent().parent().find('input[type=checkbox]').removeAttr('checked').removeAttr('disabled');
+    
 });
 
 $('#tasksFilters').find('select').change(function(){

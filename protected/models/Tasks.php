@@ -94,7 +94,7 @@ class Tasks extends CActiveRecord
 			array('parent', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, text, author_id, created, deadline, sticked,subtasks_opened', 'safe', 'on'=>'search'),
+			array('id, text, author_id, created, deadline, sticked,subtasks_opened,spent', 'safe', 'on'=>'search'),
 			array('_executors, text, priority, status, sticked, subtasks_opened', 'safe'),
 		);
 	}
@@ -133,6 +133,7 @@ class Tasks extends CActiveRecord
 			'status' => 'Статус',
 			'priority' => 'Приоритет',
 			'sticked' => 'Закреплён',
+            'spent' => 'Потрачено времени на выполнение',
 			'subtasks_opened' => 'Незакрытых задач',
 			'parent_caption' => 'Родительская задача',
 			'parent_deadline' => 'Крайний срок',
@@ -274,13 +275,17 @@ class Tasks extends CActiveRecord
 		} else {
             $this->status = self::STATUS_FINISHED;
         }
-		
-		
+        
+        // запоминаем время выполнения если такие данные пришли
+        // так не канает так как при сохранении дорфига операций с исполнителями
+        //$this->spent += (int) $_POST['hour'] * 60 + (int) $_POST['minute'];
+        //$this->save();
+        
 		$connection=Yii::app()->db;
 		
 		// закрываем саму задачу
 		$connection->createCommand()		
-				->update('tt_tasks', array('status' => $this->status), 'id=:id', array(':id' => $this->id));
+				->update('tt_tasks', array('status' => $this->status, 'spent' => $this->spent + ((int) $_POST['hour'] * 60 + (int) $_POST['minute'])), 'id=:id', array(':id' => $this->id));
 		
 		// закрываем все подзадачи
 		if (empty($this->parent) && $this->status == self::STATUS_FINISHED)
@@ -299,10 +304,12 @@ class Tasks extends CActiveRecord
 		$l->user_id = Yii::app()->user->id;
 		$l->action = 'change_status';
 		$l->result = $this->status;
+        $l->info = (int) $_POST['hour'] * 60 + (int) $_POST['minute'];
 		$l->save();
 		
 		if (Yii::app()->user->id != $this->author_id && $this->status == self::STATUS_FINISHED)
 		{
+			/*
 			$email = new YiiMailMessage;
 			$email->view = 'task.finish';
 			$email->subject = 'Завершена задача "' . $this->caption . '"';
@@ -318,8 +325,24 @@ class Tasks extends CActiveRecord
 				'text/html');
 			
 			$email->addTo(Users::model()->findByPk($this->author_id)->email);
-					
+			
 			Yii::app()->mail->send($email);
+			*/
+
+			$mail = new YiiMailer();
+			$mail->setFrom(Yii::app()->params['adminEmail']);
+			$mail->setTo(Users::model()->findByPk($this->author_id)->email);
+			$mail->setSubject('Завершена задача "' . $this->caption . '"');
+			$mail->setView('task.finish');
+			$mail->setData(array(
+					'id' => $this->id, 
+					'parent' => $parent,
+					'caption' => $this->caption, 
+					'task' => $this,
+					'user' => Users::model()->findByPk(Yii::app()->user->id)->login,
+				));
+			
+			$mail->send();
 		}
         else
         {

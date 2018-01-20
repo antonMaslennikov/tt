@@ -34,4 +34,28 @@ return array(
         'bizRule' => null,
         'data' => null
     ),
+    4 =>  array(
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Программист',
+        'bizRule' => null,
+        'data' => null
+    ),
+    5 =>  array(
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'UI',
+        'bizRule' => null,
+        'data' => null
+    ),
+    6 =>  array(
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Системный инженер',
+        'bizRule' => null,
+        'data' => null
+    ),
+    7 =>  array(
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Владелец компании',
+        'bizRule' => null,
+        'data' => null
+    ),
 );

@@ -10,7 +10,7 @@
 	
 	<div class="portlet" id="yw2">
 		
-		<? if (Yii::app()->user->role >= 3): ?>
+		<? if (Yii::app()->user->role >= 3 || true): ?>
 		
 		<div class="portlet-decoration">
 			<div class="portlet-title">Фильтры</div>
@@ -22,6 +22,9 @@
 			<input type="hidden" name="url" value="<?= Yii::app()->createUrl('Tasks/' . Yii::app()->controller->action->id) ?>" />
 		
 			<ul class="operations" id="yw3">
+			
+				<? if (Yii::app()->user->role >= 3): ?>
+			
 				<li style="margin-top:6px">
 					
 					Ответственный:<br />
@@ -37,6 +40,8 @@
 						
 					</select>
 				</li>
+				
+				<? endif; ?>
 				
 				<li style="margin-top:6px">
 					

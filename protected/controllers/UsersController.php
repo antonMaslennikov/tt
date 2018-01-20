@@ -33,7 +33,7 @@ class UsersController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions' => array('admin','create','update','delete'),
-				'roles'   => array(2, 3),
+				'roles'   => array(3),
 			),
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('update', 'deleteAvatar'),

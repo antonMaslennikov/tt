@@ -375,7 +375,7 @@ class TasksController extends Controller
 		if(Yii::app()->request->isAjaxRequest) {
 			Yii::app()->end();
 		} else {
-			$this->redirect(array('view','id'=>$model->id));
+			$this->redirect(array('view','id'=>$model->parent ? $model->parent : $model->id));
 		}
 	}
 	

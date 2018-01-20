@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Users', 'url'=>array('create')),
+	array('label'=>'Создать нового', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

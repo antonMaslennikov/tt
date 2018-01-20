@@ -86,7 +86,7 @@
 		</td>
 		<td style="vertical-align:top">
 		
-			<? if (in_array($model->role, array(2,3))): ?>
+			<? if (in_array(Yii::app()->user->role, array(3))): ?>
 		
 			<div class="row">
 				<?php echo $form->labelEx($model,'role'); ?>

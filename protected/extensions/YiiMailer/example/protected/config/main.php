@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'TT',
+	'name'=>'My Web Application',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -16,18 +16,19 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-		'ext.mail.YiiMailMessage',
 		'ext.YiiMailer.YiiMailer',
 	),
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		//'gii'=>array(
-			//'class'=>'system.gii.GiiModule',
-			//'password'=>'gii',
-			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			//'ipFilters'=>array('127.0.0.1','::1'),
-		//),
+		/*
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'password'=>'Enter Your Password Here',
+		 	// If removed, Gii defaults to localhost only. Edit carefully to taste.
+			'ipFilters'=>array('127.0.0.1','::1'),
+		),
+		*/
 	),
 
 	// application components
@@ -35,7 +36,6 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
-			'class' => 'WebUser',
 		),
 		// uncomment the following to enable URLs in path-format
 		/*
@@ -49,20 +49,22 @@ return array(
 		),
 		*/
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=tt',
+			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
+		),
+		// uncomment the following to use a MySQL database
+		/*
+		'db'=>array(
+			'connectionString' => 'mysql:host=localhost;dbname=testdrive',
 			'emulatePrepare' => true,
-			'username' => 'tt',
-			'password' => 'SuhdDRz3H2YcOBK5',
+			'username' => 'root',
+			'password' => '',
 			'charset' => 'utf8',
 		),
-		'authManager' => array(
-            'class' => 'PhpAuthManager',
-            'defaultRoles' => array(0),
-        ),
+		*/
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
-		),
+            'errorAction'=>'site/error',
+        ),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
@@ -71,24 +73,19 @@ return array(
 					'levels'=>'error, warning',
 				),
 				// uncomment the following to show log messages on web pages
-				//array(
-				//	'class'=>'CWebLogRoute',
-				//),
+				/*
+				array(
+					'class'=>'CWebLogRoute',
+				),
+				*/
 			),
 		),
-		'mail' => array(
-            'class' => 'ext.mail.YiiMail',
-            'transportType' => 'php',
-            'viewPath' => 'application.views.emails',
-            'logging' => true,
-            'dryRun' => false
-         ),
 	),
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'smash@maryjane.ru',
+		'adminEmail'=>'webmaster@example.com',
 	),
 );
